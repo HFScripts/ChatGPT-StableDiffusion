@@ -41,6 +41,15 @@ def generate_gpt_response(messages):
     )
     return response.choices[0].message['content'].strip()
 
+
+def submit_post(url: str, data: dict):
+    return requests.post(url, data=json.dumps(data))
+
+
+def save_encoded_image(b64_image: str, output_path: str):
+    with open(output_path, "wb") as image_file:
+        image_file.write(base64.b64decode(b64_image))
+
 messages = []
 
 GPT_prompt = f"\n{example_prompt_list} \n\n\nbased on the stable diffusion prompts, create {how_many_prompts} different stable diffusion prompts for: '{user_input}' following the same format."
@@ -54,16 +63,9 @@ responses = stable_diffusion_command.split('\n')  # Split the text based on new 
 responses = [response.split('. ', 1)[-1].strip() for response in responses if response.strip()]
 
 
-def submit_post(url: str, data: dict):
-    return requests.post(url, data=json.dumps(data))
-
-def save_encoded_image(b64_image: str, output_path: str):
-    with open(output_path, "wb") as image_file:
-        image_file.write(base64.b64decode(b64_image))
-
-# Print the separated responses
+# Print the separated responses + generate images.
 for i, response in enumerate(responses, 1):
     print(f"{response}\n")
-    data = {f"'promt:' {response}"}
+    data = {f"'promt:' '{response}'"}
     response = submit_post(txt2img_url, data)
     save_encoded_image(response.json()['images'[0], 'dog.png'])
