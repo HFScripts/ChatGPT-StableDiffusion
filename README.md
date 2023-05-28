@@ -38,6 +38,7 @@ To run the code, make sure you have the following requirements fulfilled:
 ## Contributing
 
 Contributions to this repository are welcome. If you find any issues or have suggestions for improvements, please open an issue or submit a pull request.
+Will look at implementing a proper StableDiffusion setup in the future for the 'for loop' left at the bottom of the script.
 
 ## License
 
